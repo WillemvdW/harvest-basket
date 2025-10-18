@@ -1,0 +1,55 @@
+name: Sync package.json to branches
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "package.json"
+
+permissions:
+  contents: write
+
+jobs:
+  sync-package-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get all branches and update package.json
+        run: |
+          # Get the package.json from main
+          git checkout main
+          cp package.json /tmp/package.json
+
+          # Get all remote branches except main and dev
+          branches=$(git branch -r | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/dev' | sed 's/origin\///')
+
+          for branch in $branches; do
+            echo "Processing branch: $branch"
+
+            # Checkout the branch
+            git checkout "$branch" || continue
+
+            # Copy the package.json from main
+            cp /tmp/package.json package.json
+
+            # Check if there are changes
+            if ! git diff --quiet package.json; then
+              git add package.json
+              git commit -m "chore: sync package.json from main"
+              git push origin "$branch"
+              echo "Updated package.json in $branch"
+            else
+              echo "No changes needed in $branch"
+            fi
+          done
