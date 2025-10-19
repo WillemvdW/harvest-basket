@@ -1,12 +1,12 @@
 # Setup Guide - Harvest Basket
 
-This guide will help you set up the Harvest Basket project using Node.js and NVM.
+This guide will help you set up the Harvest Basket project using Node.js, NVM, and npm.
 
 ## Prerequisites
 
 - **Git** - Version control
 - **NVM** (Node Version Manager) - For managing Node.js versions
-- **npm** - Comes with Node.js (or use yarn/pnpm if preferred)
+- **npm** - Comes with Node.js (v10.2.4+)
 
 ## Installation Steps
 
@@ -51,16 +51,21 @@ You should see output like:
 Now using node v20.11.1 (npm 10.2.4)
 ```
 
-### 4. Install Project Dependencies
+### 4. Install Project Dependencies with npm
 
 ```bash
-npm install
+npm ci
 ```
 
 This will:
-- Install all dependencies from `package.json`
+- Use the exact versions from `package-lock.json`
 - Create a `node_modules` directory
-- Generate `package-lock.json` for reproducible installs
+- Ensure reproducible installs across machines
+
+**Alternative (if package-lock.json is outdated):**
+```bash
+npm install
+```
 
 ### 5. Set Up Environment Variables
 
@@ -84,19 +89,19 @@ npm run dev
 
 The app will be available at `http://localhost:5173`
 
-## Available Scripts
+## Available npm Scripts
 
 ```bash
-# Start development server
+# Start development server with hot reload
 npm run dev
 
 # Build for production
 npm run build
 
 # Preview production build locally
-npm preview
+npm run preview
 
-# Run linter
+# Run ESLint
 npm run lint
 ```
 
@@ -118,6 +123,23 @@ nvm alias default 20.11.1
 # List available versions
 nvm list-remote
 ```
+
+## Build Environment: npm
+
+This project uses **npm** as the package manager:
+
+- ✅ **Primary Package Manager**: npm
+- ✅ **Node.js Version**: 20.11.1 (LTS)
+- ✅ **Lock File**: package-lock.json (for reproducible installs)
+- ✅ **Configuration**: .npmrc (npm settings)
+- ✅ **Version Specification**: .nvmrc (NVM version)
+
+### Why npm?
+
+- **Standard**: npm is the default with Node.js
+- **Consistent**: Better team compatibility
+- **Reproducible**: package-lock.json ensures exact versions
+- **Performance**: Fast dependency resolution
 
 ## Troubleshooting
 
@@ -148,29 +170,42 @@ npm cache clean --force
 npm install
 ```
 
+### "Cannot find module" errors
+Delete node_modules and reinstall:
+```bash
+rm -r node_modules
+npm ci
+```
+
 ## Project Structure
 
 ```
 harvest-basket/
-├── .nvmrc                 # Node version specification for NVM
-├── .npmrc                 # NPM configuration
-├── package.json           # Project dependencies
+├── .nvmrc                 # Node version for NVM (20.11.1)
+├── .npmrc                 # npm configuration
+├── package.json           # Project dependencies and metadata
 ├── package-lock.json      # Locked dependency versions
-├── vite.config.ts         # Vite configuration
+├── vite.config.ts         # Vite build configuration
 ├── tsconfig.json          # TypeScript configuration
 ├── tailwind.config.js     # Tailwind CSS configuration
 ├── index.html             # HTML entry point
 ├── src/
-│   ├── App.tsx           # Main app component
+│   ├── App.tsx           # Main app component with routing
 │   ├── main.tsx          # React entry point
-│   ├── index.css         # Global styles
-│   ├── components/       # Reusable components
-│   ├── pages/            # Page components
-│   ├── context/          # React context providers
+│   ├── index.css         # Global styles (Tailwind)
+│   ├── components/       # Reusable React components
+│   ├── pages/            # Page components for routing
+│   ├── context/          # React Context providers
 │   ├── types/            # TypeScript type definitions
 │   ├── utils/            # Utility functions
 │   └── lib/              # Library utilities
-└── README.md             # Project documentation
+├── .github/
+│   ├── workflows/
+│   │   └── build.yml     # CI/CD pipeline with npm
+│   └── ISSUE_TEMPLATE/
+├── README.md             # Project documentation
+├── SETUP.md              # This file
+└── CHANGELOG.md          # Version history
 ```
 
 ## Development Workflow
@@ -178,13 +213,13 @@ harvest-basket/
 ### For first-time setup:
 ```bash
 # 1. Clone the repo
-git clone <repo-url>
+git clone https://github.com/YOUR_USERNAME/harvest-basket.git
 cd harvest-basket
 
-# 2. Install Node.js version
+# 2. Install Node.js version with NVM
 nvm install
 
-# 3. Install dependencies
+# 3. Install dependencies with npm
 npm install
 
 # 4. Set up environment
@@ -205,6 +240,18 @@ nvm use
 npm run dev
 ```
 
+## Continuous Integration
+
+The project uses GitHub Actions for CI/CD. The workflow:
+
+1. Installs Node.js v20.11.1 using NVM
+2. Installs dependencies with `npm ci`
+3. Runs linting with `npm run lint`
+4. Builds the project with `npm run build`
+5. Archives build artifacts
+
+See `.github/workflows/build.yml` for details.
+
 ## Deployment
 
 ### Build for Production
@@ -221,44 +268,53 @@ npm run preview
 
 This locally serves the production build for testing.
 
-## Continuous Integration
+### Deploy to Vercel
+```bash
+# Install Vercel CLI
+npm install -g vercel
 
-The project is configured for Node.js environments. Typical CI/CD setup:
-
-```yaml
-# .github/workflows/build.yml (example)
-name: Build and Deploy
-on: [push, pull_request]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: nvm-sh/action-setup@v3
-        with:
-          node-version-file: '.nvmrc'
-      - run: npm ci
-      - run: npm run build
+# Deploy
+vercel
 ```
+
+### Deploy to Netlify
+```bash
+npm run build
+# Then drag & drop the dist/ folder to Netlify
+```
+
+## Package Manager Comparison
+
+| Feature | npm | Bun | Yarn |
+|---------|-----|-----|------|
+| Speed | ⚡⚡ | ⚡⚡⚡ | ⚡⚡ |
+| Compatibility | ✅ Standard | ✅ Good | ✅ Good |
+| Learning Curve | ✅ Easy | ⚠️ New | ⚠️ Different |
+| Team Adoption | ✅ High | ⚠️ Lower | ✅ Medium |
+| Production Ready | ✅ Yes | ⚠️ Newer | ✅ Yes |
+
+**We use npm for maximum compatibility and team adoption.**
 
 ## Performance Tips
 
-- **Use `npm ci` in CI/CD** instead of `npm install` for faster, more reliable builds
+- **Use `npm ci`** in CI/CD instead of `npm install` for faster builds
 - **Cache node_modules** in CI/CD pipelines
-- **Use `.npmrc`** for consistent npm configurations across team
+- **Use `.npmrc`** for consistent settings across team
+- **Update dependencies** regularly but test thoroughly
 
 ## Next Steps
 
 1. Review the [README.md](./README.md) for project features
 2. Check [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines
 3. Explore the codebase in `src/` directory
+4. Start developing with `npm run dev`
 
 ## Support
 
 For issues or questions:
 1. Check existing GitHub issues
 2. Create a new issue with detailed description
-3. Include your `node --version` and `npm --version` output
+3. Include your `node --version`, `npm --version`, and OS output
 
 ---
 
