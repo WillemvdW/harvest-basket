@@ -3,18 +3,20 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Online store for fresh produce from urban farms",
+  "description": "Online store for fresh produce from urban farms with user authentication, secure payments, and admin panel",
   "author": "Your Name",
   "license": "MIT",
   "engines": {
     "node": ">=20.11.1",
     "npm": ">=10.2.4"
   },
+  "packageManager": "npm@10.2.4",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

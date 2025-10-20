@@ -1,0 +1,245 @@
+================================================================================
+HARVEST BASKET - GITHUB PUSH COMMANDS
+================================================================================
+
+Copy and paste these commands exactly as shown in PowerShell.
+Replace "YOUR_USERNAME" with your actual GitHub username.
+
+================================================================================
+STEP 1: NAVIGATE TO PROJECT
+================================================================================
+
+cd C:\Users\wille\OneDrive\Source\shipper\harvest-basket
+
+
+================================================================================
+STEP 2: VERIFY ENVIRONMENT
+================================================================================
+
+nvm current
+node --version
+npm --version
+
+
+================================================================================
+STEP 3: INSTALL DEPENDENCIES (if needed)
+================================================================================
+
+npm install
+
+
+================================================================================
+STEP 4: BUILD PROJECT (verify everything works)
+================================================================================
+
+npm run build
+
+
+================================================================================
+STEP 5: STAGE ALL CHANGES
+================================================================================
+
+git add .
+
+
+================================================================================
+STEP 6: VERIFY STAGED CHANGES
+================================================================================
+
+git status
+
+
+================================================================================
+STEP 7: CREATE COMMIT
+================================================================================
+
+git commit -m "feat: Complete Harvest Basket with npm-only build environment
+
+- Update package.json with project metadata and all required dependencies
+- Add Stripe payment integration (@stripe/react-stripe-js, @stripe/stripe-js)
+- Add Leaflet mapping (leaflet, react-leaflet)
+- Enforce npm-only build (no bun/yarn support)
+- Configure Node.js 20.11.1 with NVM (.nvmrc)
+- Setup .npmrc for npm settings
+- GitHub Actions CI/CD workflow with npm
+- Complete authentication system with secure password hashing
+- Shopping cart with reusable baskets
+- Admin dashboard with inventory, farms, and drop-off management
+- Comprehensive documentation and setup guides
+- Ready for production deployment"
+
+
+================================================================================
+STEP 8: VERIFY REMOTE
+================================================================================
+
+git remote -v
+
+
+================================================================================
+STEP 9: PUSH TO GITHUB
+================================================================================
+
+git push origin main
+
+
+================================================================================
+STEP 10: VERIFY PUSH SUCCEEDED
+================================================================================
+
+git log -1
+git remote -v
+
+
+================================================================================
+STEP 11: VERIFY ON GITHUB (in browser)
+================================================================================
+
+Open: https://github.com/YOUR_USERNAME/harvest-basket
+
+Verify:
+- All files are visible
+- Latest commit shows the feature message
+- .nvmrc contains "20.11.1"
+- package.json name is "harvest-basket"
+- GitHub Actions workflow exists
+- All src/ files are present
+
+
+================================================================================
+ALTERNATIVE: ALL COMMANDS AT ONCE
+================================================================================
+
+If you want to run everything in one go, copy and paste this entire block:
+
+cd C:\Users\wille\OneDrive\Source\shipper\harvest-basket && `
+nvm use && `
+npm install && `
+npm run build && `
+git add . && `
+git commit -m "feat: Complete Harvest Basket with npm-only build environment" && `
+git push origin main && `
+echo "SUCCESS: Pushed to GitHub!" && `
+git log -1 && `
+git remote -v
+
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+If npm install fails:
+npm cache clean --force
+rm -r node_modules
+npm install
+
+If build fails:
+npm run build
+
+If git push fails - authentication error:
+1. Get Personal Access Token from GitHub
+2. Settings → Developer settings → Personal access tokens → Generate new token
+3. Select "repo" scope
+4. Copy token
+5. When prompted for password during git push, paste the token
+
+If node version is wrong:
+nvm install 20.11.1
+nvm use 20.11.1
+
+If git remote is wrong:
+git remote remove origin
+git remote add origin https://github.com/YOUR_USERNAME/harvest-basket.git
+
+
+================================================================================
+SUCCESS CHECKLIST
+================================================================================
+
+After push completes:
+
+✅ git push succeeded (no errors)
+✅ https://github.com/YOUR_USERNAME/harvest-basket shows all files
+✅ Latest commit message visible on main branch
+✅ .nvmrc file contains "20.11.1"
+✅ package.json name is "harvest-basket"
+✅ All src/ files are present
+✅ GitHub Actions workflow file exists (.github/workflows/build.yml)
+✅ .npmrc exists (npm configuration)
+✅ Documentation files present (README.md, SETUP.md, etc.)
+
+
+================================================================================
+WHAT GETS PUSHED
+================================================================================
+
+Configuration Files:
+- .nvmrc (Node version)
+- .npmrc (npm config)
+- package.json (dependencies & metadata)
+- package-lock.json (locked versions)
+- vite.config.ts, tsconfig.json, tailwind.config.js
+- index.html
+
+Source Code (30+ files):
+- src/App.tsx, src/main.tsx, src/index.css
+- src/components/* (Header, AuthModal, PaymentForm)
+- src/pages/* (Shop, Cart, Profile, SavedBaskets)
+- src/pages/admin/* (Dashboard, Inventory, Farms, DropOffPoints)
+- src/context/* (StoreContext, AuthContext)
+- src/types/*, src/utils/*, src/lib/*
+
+Documentation (8 files):
+- README.md, SETUP.md, QUICK_START.md
+- CONTRIBUTING.md, CHANGELOG.md, GIT_PUSH_GUIDE.md
+- READY_TO_PUSH.md, .github/npm-only.md
+
+GitHub Configuration:
+- .github/workflows/build.yml (CI/CD with npm)
+- .github/ISSUE_TEMPLATE/* (issue templates)
+- .gitignore, .env.example
+
+
+================================================================================
+AFTER PUSH
+================================================================================
+
+GitHub Actions will automatically:
+1. Install Node.js v20.11.1 with NVM
+2. Run: npm ci (clean install)
+3. Run: npm run lint (ESLint)
+4. Run: npm run build (build project)
+5. Archive build artifacts
+
+Monitor here:
+https://github.com/YOUR_USERNAME/harvest-basket/actions
+
+
+================================================================================
+TESTING THE BUILD LOCALLY
+================================================================================
+
+After pushing, test by cloning fresh:
+
+cd C:\test-harvest
+git clone https://github.com/YOUR_USERNAME/harvest-basket.git .
+nvm use
+npm install
+npm run dev
+
+Should open at http://localhost:5173
+
+
+================================================================================
+READY TO PUSH!
+================================================================================
+
+Your npm-only Harvest Basket build is ready.
+
+Start from STEP 1 and follow the commands.
+
+For detailed explanations, see: GIT_PUSH_GUIDE.md
+For project overview, see: README.md
+For quick reference, see: QUICK_START.md
+
+Good luck! 🚀

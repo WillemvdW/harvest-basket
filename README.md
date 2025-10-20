@@ -22,17 +22,7 @@ Before you begin, ensure you have the following installed:
 bun install
 ```
 
-### 2. Set Up Environment Variables
-
-Copy the environment template and configure your variables:
-
-```bash
-cp .env.example .env
-```
-
-Then edit `.env` with your configuration values.
-
-### 3. Run the Development Server
+### 2. Run the Development Server
 
 ```bash
 bun dev
