@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Address } from '../types';
-import { hashPasswordWithSalt, verifyPassword, generateSalt } from '../utils/crypto';
+import { hashPasswordWithSalt, generateSalt } from '../utils/crypto';
 
 interface AuthContextType {
   user: User | null;
